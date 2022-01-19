@@ -21,16 +21,27 @@
                 <img class="masthead-avatar" src="assets/img/avataaars.svg" alt="..." />
                 <br>
                 <div class="divider-custom divider-light">
+                @if (Route::has('login'))
                     <div >
+                    @auth
+                           <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                    @else
                         <a class="btn btn-danger py-3 px-0 px-lg-3 rounded" href="{{ route('login') }}">
                             <strong>Iniciar Sesión</strong>
                         </a>
+                        
                     </div>
+                    
                     <div>
+                          @if (Route::has('register'))
                         <a class="btn btn-danger py-3 px-0 px-lg-3 rounded" href="{{ route('register') }}">
                             <strong>Registrarse</strong>
                         </a>
+                         @endif
                     </div>
+                    
+                    @endauth
+                @endif
                 </div>
                 <br>
                 <br>

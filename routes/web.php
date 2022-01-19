@@ -52,3 +52,7 @@ Route::get('/analisis/index', function () {
 Route::get('/solicitudInterna/index', function () {
     return view('solicitudInterna.index');
 })->name('solicitudInterna.index');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

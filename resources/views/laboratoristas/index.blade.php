@@ -159,7 +159,7 @@
                     </div>
                     <!-- Input Confirmar Contraseña -->
                     <div class="col-sm-6">
-                        <label for="password_confirmation">Confrimas contraseña</label>
+                        <label for="password_confirmation">Confirmar contraseña</label>
                         <input type="password" class="form-control" id="password_confirmation">
                     </div>
                 </div>
