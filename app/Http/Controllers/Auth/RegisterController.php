@@ -50,12 +50,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'cedula' => ['required', 'string', 'max:10'],
-            'nombre' => ['required', 'string', 'max:255'],
-            'apellido' => ['required', 'string', 'max:255'],
-            'provincia' => ['required', 'string', 'max:255'],
-            'canton' => ['required', 'string', 'max:255'],
+            'cedula' => ['required', 'string', 'max:10','unique:users'],
+            'nombre' => ['required', 'string', 'max:50'],
+            'apellido' => ['required', 'string', 'max:50'],
+            'provincia' => ['required', 'string', 'max:100'],
+            'canton' => ['required', 'string', 'max:100'],
             'direccion' => ['required', 'string', 'max:255'],
+            'rol' => ['required', 'string', 'max:50'],
+            'estado' => ['required', 'string', 'max:50'],
+           /*  'laboratorio' => ['string','min:0', 'max:50'], */
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -76,6 +79,9 @@ class RegisterController extends Controller
             'provincia' => $data['provincia'],
             'canton' => $data['canton'],
             'direccion' => $data['direccion'],
+            'rol' => $data['rol'],
+            'estado' => $data['estado'],
+            /* 'laboratorio' => $data['laboratorio'], */
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

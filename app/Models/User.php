@@ -24,6 +24,9 @@ class User extends Authenticatable
         'provincia',
         'canton',
         'direccion',
+        'rol',
+        'estado',
+        'laboratorio',
         'email',
         'password',
     ];

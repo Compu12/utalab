@@ -151,10 +151,19 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input id="password-confirm" type="password" class="form-control form-control-user"
-                                            placeholder="Confirmar Contraseña" password_confirmation" required
+                                            placeholder="Confirmar Contraseña" password_confirmation required
                                             autocomplete="new-password">
                                     </div>
-
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="rol" name="rol" type="hidden" class="form-control form-control-user" value="cliente">
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="estado" name="estado" type="hidden" class="form-control form-control-user" value="Activo">
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="laboratorio" name="laboratorio" type="hidden" class="form-control form-control-user" value="">
                                 </div>
 
 
