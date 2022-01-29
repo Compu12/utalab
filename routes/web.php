@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,6 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
 
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
@@ -41,9 +39,10 @@ Route::get('/clientes/index', function () {
     return view('clientes.index');
 })->name('clientes.index');
 
-Route::get('/laboratoristas/index', function () {
-    return view('laboratoristas.index');
-})->name('laboratoristas.index');
+Route::get('/laboratoristas/index', 'UserController@index')->name('laboratoristas.index');
+Route::post('/laboratoristas/store', 'UserController@store')->name('laboratoristas.store');
+Route::post('/laboratoristas/{userId}/update', 'UserController@update')->name('laboratoristas.update');
+Route::delete('/laboratoristas/{userId}/delete', 'UserController@delete')->name('laboratoristas.delete');
 
 Route::get('/analisis/index', function () {
     return view('analisis.index');
@@ -52,3 +51,7 @@ Route::get('/analisis/index', function () {
 Route::get('/solicitudInterna/index', function () {
     return view('solicitudInterna.index');
 })->name('solicitudInterna.index');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

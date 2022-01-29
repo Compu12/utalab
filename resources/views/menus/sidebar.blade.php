@@ -4,7 +4,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center py-auto" href="{{ route('index') }}">
         <div class="sidebar-brand-icon ">
-            <img src="{{asset('img/Ico-UTA.png')}}" class="img-circle img-thumbnail " alt="">
+            <img src="{{ asset('img/Ico-UTA.png') }}" class="img-circle img-thumbnail " alt="">
             <div class="sidebar-brand-text mx-3">UTA-LAB</div>
         </div>
     </a>
@@ -13,35 +13,52 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ (request()->routeIs('index*')) ? 'active' : ''}}">
+    @if (Auth::user()->rol != 'cliente')
+         <li class="nav-item {{ request()->routeIs('index*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('index') }}">
             <i class="fas fa-house-user"></i>
             <span>Inicio</span></a>
     </li>
+    @endif
+   
 
     <!-- Divider -->
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item {{ (request()->routeIs('laboratoristas*')) ? 'active' : ''}}">
-        <a class="nav-link" href="{{ route('laboratoristas.index') }}">
-            <i class="fas fa-users"></i>
-            <span>Laboratoristas</span></a>
-    </li>
+    @if (Auth::user()->rol == 'Administrador')
+        <li class="nav-item {{ request()->routeIs('laboratoristas*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('laboratoristas.index') }}">
+                <i class="fas fa-users"></i>
+                <span>Laboratoristas</span></a>
+        </li>
+
+        <li class="nav-item {{ request()->routeIs('clientes*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('clientes.index') }}">
+                <i class="fas fa-address-book"></i>
+                <span>Clientes</span></a>
+        </li>
+
+    @endif
+
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item {{ (request()->routeIs('clientes*')) ? 'active' : ''}}">
-        <a class="nav-link" href="{{ route('clientes.index') }}">
-            <i class="fas fa-address-book"></i>
-            <span>Clientes</span></a>
-    </li>
+    @if (Auth::user()->rol == 'Laboratorista')
+        <li class="nav-item {{ request()->routeIs('clientes*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('clientes.index') }}">
+                <i class="fas fa-address-book"></i>
+                <span>Clientes</span></a>
+        </li>
 
+        <li class="nav-item {{ request()->routeIs('analisis*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('analisis.index') }}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Análisis</span></a>
+        </li>
+
+    @endif
     <!-- Nav Item - Charts -->
-    <li class="nav-item {{ (request()->routeIs('analisis*')) ? 'active' : ''}}">
-        <a class="nav-link" href="{{ route('analisis.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Análisis</span></a>
-    </li>
+
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
@@ -58,7 +75,7 @@
     </li>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item {{ (request()->routeIs('solicitudInterna*')) ? 'active' : ''}}">
+    <li class="nav-item {{ request()->routeIs('solicitudInterna*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('solicitudInterna.index') }}">
             <i class="fas fa-scroll"></i>
             <span>Solicitud Interna</span></a>
