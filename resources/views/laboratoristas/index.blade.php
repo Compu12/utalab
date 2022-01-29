@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <button type="button" class="btn btn-outline-primary text-right" onclick="guardar()">
-                        <i class="fas fa-plus-circle"></i> Nuevo
+                        <i class="fas fa-plus-circle"></i> Nuevo ff
                     </button>
                 </div>
             </div>
