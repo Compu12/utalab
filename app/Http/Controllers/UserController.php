@@ -11,10 +11,11 @@ class UserController extends Controller
 {
    public function index()
     {
+
         $users=User::where('rol', '!=', 'cliente')->get();
         return view("laboratoristas.index", ["labs" => $users]);
-    }
 
+    }
 
     public function store(Request $request)
     {
@@ -51,6 +52,7 @@ class UserController extends Controller
         $newUser->save();
        return redirect()->back();
     }
+
     public function create(array $data)
     {
         return User::create([
@@ -67,4 +69,56 @@ class UserController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+/* CLIENTE */
+
+    public function indexCliente()
+    {
+
+        $clients=User::where('rol', '=', 'Cliente')->get();
+        return view("clientes.index", ["cli" => $clients]);
+
+
+    }
+
+    public function updateCliente(Request $request, $userId)
+    {
+        /* User::find($userId); */
+        $newUser = User::find($userId);
+        $newUser->cedula = $request->cedula;
+        $newUser->nombre = $request->nombre;
+        $newUser->apellido = $request->apellido;
+        $newUser->provincia = $request->provincia;
+        $newUser->canton = $request->canton;
+        $newUser->direccion = $request->direccion;
+        $newUser->estado = $request->estado;
+        $newUser->email = $request->email;
+        $newUser->save();
+       return redirect()->back();
+    }
+
+    public function storeCliente(Request $request)
+    {
+        $newUser = new User();
+        $newUser->cedula = $request->cedula;
+        $newUser->nombre = $request->nombre;
+        $newUser->apellido = $request->apellido;
+        $newUser->provincia = $request->provincia;
+        $newUser->canton = $request->canton;
+        $newUser->direccion = $request->direccion;
+        $newUser->estado = $request->estado;
+        $newUser->email = $request->email;
+        $newUser->rol = "Cliente";
+        $newUser-> password =  Hash::make($request->password);
+        $newUser->save();
+       return redirect()->back();
+    }
+
+    public function deleteCliente($userId)
+    {
+        $newUser = User::find($userId);
+        $newUser->delete();
+        return redirect()->back();
+    }
+
 }

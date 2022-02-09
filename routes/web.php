@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -35,9 +36,10 @@ Route::get('/index', function () {
     return view('index');
 })->name('index');
 
-Route::get('/clientes/index', function () {
-    return view('clientes.index');
-})->name('clientes.index');
+Route::get('/clientes/index', 'UserController@indexCliente')->name('clientes.index');
+Route::post('/clientes/{userId}/update', 'UserController@updateCliente')->name('clientes.update');
+Route::post('/clientes/store', 'UserController@storeCliente')->name('clientes.store');
+Route::delete('/clientes/{userId}/delete', 'UserController@deleteCliente')->name('clientes.delete');
 
 Route::get('/laboratoristas/index', 'UserController@index')->name('laboratoristas.index');
 Route::post('/laboratoristas/store', 'UserController@store')->name('laboratoristas.store');

@@ -50,7 +50,7 @@
 
                                 <td>
                                     <div class="text-center">
-                                      {{--   <button type="button" class="btn btn-outline-warning" 
+                                      {{--   <button type="button" class="btn btn-outline-warning"
                                             onclick='editar("#editarModal{{$item->id}}","{{ $item->cedula }}","{{ $item->apellido }}","{{ $item->nombre }}","{{ $item->rol }}","{{ $item->laboratorio }}","{{ $item->provincia }}","{{ $item->canton }}","{{ $item->estado }}","{{ $item->direccion }}","{{ $item->email }}")'><i
                                                 class="fas fa-edit"></i></button> --}}
                                         <button type="button" class="btn btn-outline-warning" data-toggle="modal"
@@ -117,7 +117,7 @@
                                                                         Laboratorista</option>
                                                                 </select>
                                                             </div>
-                                                            
+
                                                         </div>
                                                         <div class="form-group row">
                                                             <!-- Select Laboratorio -->
