@@ -14,13 +14,21 @@
 
     <!-- Nav Item - Dashboard -->
     @if (Auth::user()->rol != 'cliente')
-         <li class="nav-item {{ request()->routeIs('index*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('index') }}">
-            <i class="fas fa-house-user"></i>
-            <span>Inicio</span></a>
-    </li>
+        <li class="nav-item {{ request()->routeIs('index*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('index') }}">
+                <i class="fas fa-house-user"></i>
+                <span>Inicio</span></a>
+        </li>
     @endif
-   
+    <!-- Nav Item - Dashboard -->
+    @if (Auth::user()->rol == 'cliente')
+        <li class="nav-item {{ request()->routeIs('index*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('index') }}">
+                <i class="fas fa-house-user"></i>
+                <span>Crear Solicitud</span></a>
+        </li>
+    @endif
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -37,6 +45,11 @@
             <a class="nav-link" href="{{ route('clientes.index') }}">
                 <i class="fas fa-address-book"></i>
                 <span>Clientes</span></a>
+        </li>
+        <li class="nav-item {{ request()->routeIs('clientes*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('clientes.index') }}">
+                <i class="fas fa-address-book"></i>
+                <span>Servicios</span></a>
         </li>
 
     @endif
