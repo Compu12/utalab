@@ -35,49 +35,185 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 1; $i <= 50; $i++)
+                        @foreach ($cli as $item)
                             <tr>
-                                <td>{{ $cedula = 11110 + $i }}</td>
-                                <td>{{ $apellido = "Tiger $i" }}</td>
-                                <td>{{ $nombre = "Nixon $i" }}</td>
-                                <td>{{ $direccion = "Edinburgh $i" }}</td>
-                                @if ($i % 2 == 0)
-                                    <td>{{ $provincia = 'Tungurahua' }}</td>
-                                @elseif ($i % 5 == 0)
-                                    <td>{{ $provincia = 'Pichincha' }}</td>
-                                @elseif ($i % 3 == 0)
-                                    <td>{{ $provincia = 'Chimborazo' }}</td>
-                                @else
-                                    <td>{{ $provincia = 'Santa Elena' }}</td>
-                                @endif
-                                @if ($i % 2 == 0)
-                                    <td>{{ $canton = 'Ambato' }}</td>
-                                @elseif ($i % 5 == 0)
-                                    <td>{{ $canton = 'Quito' }}</td>
-                                @elseif ($i % 3 == 0)
-                                    <td>{{ $canton = 'Riobamba' }}</td>
-                                @else
-                                    <td>{{ $canton = 'Salinas' }}</td>
-                                @endif
-                                <td>{{ $email = "tiger$i@gmail.com" }}</td>
-                                @if ($i % 2 == 0)
-                                    <td>{{ $estado = 'Activo' }}</td>
-                                @else
-                                    <td>{{ $estado = 'Inactivo' }}</td>
-                                @endif
+                                <td>{{ $item->cedula }}</td>
+                                <td>{{ $item->apellido }}</td>
+                                <td>{{ $item->nombre }}</td>
+                                <td>{{ $item->direccion }}</td>
+                                <td>{{ $item->provincia }}</td>
+                                <td>{{ $item->canton }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>{{ $item->estado }}</td>
                                 <td>
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                                        {{-- <button type="button" class="btn btn-outline-warning" data-toggle="modal"
                                             data-target="#nuevoModal"
-                                            onclick='editar("{{ $cedula }}","{{ $apellido }}","{{ $nombre }}","{{ $estado }}","{{ $direccion }}","{{ $provincia }}","{{ $canton }}","{{ $email }}")'><i
-                                                class="fas fa-edit"></i></button>
-                                        <button type="button" class="btn btn-outline-danger"
-                                            onclick='eliminar("{{ $cedula }}")'><i
-                                                class="fas fa-trash"></i></button>
+                                            onclick='editar("{{$item->cedula }}","{{ $item->apellido }}","{{ $item->nombre }}","{{ $item->estado }}","{{ $item->direccion }}","{{ $item->provincia }}","{{ $item->canton }}","{{ $item->email }}")'><i
+                                                class="fas fa-edit"></i></button> --}}
+                                        <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                                            data-target="#editarModal{{ $item->id }}">
+                                            <i class="fas fa-edit"></i></button>
+                                        <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                        data-target="#eliminarModal{{ $item->id}}">
+                                            {{-- onclick='eliminar("{{ $item->cedula }}")'> --}}
+                                            <i class="fas fa-trash"></i></button>
                                     </div>
+                                     <!-- Editar-->
+                                     <div class="modal fade" id="editarModal{{ $item->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"><label id="tituloModal"></label></h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <form id="editarForm" class="user" method="POST"
+                                                        action="{{ route('clientes.update', $item->id) }}">
+                                                        @csrf
+                                                        <div class="form-group row">
+                                                            <!-- Input Cédula -->
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label for="cedula">Cédula</label>
+                                                                <input type="text" class="form-control" id="cedula"
+                                                                    name="cedula" value="{{ $item->cedula }}">
+                                                            </div>
+
+
+
+                                                            <!--Input Apellido -->
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label for="apellido">Apellido</label>
+                                                                <input type="text" class="form-control" id="apellido"
+                                                                    name="apellido" value="{{ $item->apellido }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <!-- Input Nombre -->
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label for="nombre">Nombre</label>
+                                                                <input type="text" class="form-control" id="nombre"
+                                                                    name="nombre" value="{{ $item->nombre }}">
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <!--Select Estado -->
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label for="estado">Estado</label>
+                                                                <select
+                                                                    class="custom-select custom-select-sm form-control form-control-sm"
+                                                                    id="estado"
+                                                                    style="font-size: 1rem; padding-left: 0.8rem; height: 39px"
+                                                                    name="estado">
+                                                                    <option>--Seleccione--</option>
+                                                                    <option value="Activo" {!! $item->estado === 'Activo' ? 'selected' : '' !!}>Activo
+                                                                    </option>
+                                                                    <option value="Inactivo" {!! $item->estado === 'Inactivo' ? 'selected' : '' !!}>
+                                                                        Inactivo</option>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <!-- Select Provincia -->
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label for="provincia">Provincia</label>
+                                                                <select
+                                                                    class="custom-select custom-select-sm form-control form-control-sm"
+                                                                    id="provincia" name="provincia"
+                                                                    value="{{ $item->provincia }}"
+                                                                    style="font-size: 1rem; padding-left: 0.8rem; height: 39px">
+                                                                    <option>--Seleccione--</option>
+                                                                    <option value="Chimborazo" {!! $item->provincia === 'Chimborazo' ? 'selected' : '' !!}>
+                                                                        Chimborazo</option>
+                                                                    <option value="Pichincha" {!! $item->provincia === 'Pichincha' ? 'selected' : '' !!}>
+                                                                        Pichincha</option>
+                                                                    <option value="Santa Elena" {!! $item->provincia === 'Santa Elena' ? 'selected' : '' !!}>
+                                                                        Santa Elena</option>
+                                                                    <option value="Tungurahua" {!! $item->provincia === 'Tungurahua' ? 'selected' : '' !!}>
+                                                                        Tungurahua</option>
+                                                                </select>
+                                                            </div>
+                                                            <!--Select Cantón -->
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label for="canton">Cantón</label>
+                                                                <select
+                                                                    class="custom-select custom-select-sm form-control form-control-sm"
+                                                                    id="canton" name="canton" {{ $item->canton }}
+                                                                    style="font-size: 1rem; padding-left: 0.8rem; height: 39px">
+                                                                    <option>--Seleccione--</option>
+                                                                    <option value="Ambato" {!! $item->canton === 'Ambato' ? 'selected' : '' !!}>Ambato
+                                                                    </option>
+                                                                    <option value="Quito" {!! $item->canton === 'Quito' ? 'selected' : '' !!}>Quito
+                                                                    </option>
+                                                                    <option value="Riobamba" {!! $item->canton === 'Riobamba' ? 'selected' : '' !!}>
+                                                                        Riobamba</option>
+                                                                    <option value="Salinas" {!! $item->canton === 'Salinas' ? 'selected' : '' !!}>Salinas
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Input Dirección -->
+                                                        <div class="form-group">
+                                                            <label for="direccion">Dirección</label>
+                                                            <input type="text" class="form-control" id="direccion"
+                                                                name="direccion" value="{{ $item->direccion }}">
+                                                        </div>
+                                                        <!-- Input Correo Electrónico -->
+                                                        <div class="form-group">
+                                                            <label for="email">Correo Electrónico</label>
+                                                            <input type="email" class="form-control" id="email"
+                                                                name="email" value="{{ $item->email }}">
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Cancelar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Modal Eliminar-->
+    <div class="modal fade" id="eliminarModal{{ $item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <form id="deleteform" class="user" method="POST" action="{{ route('clientes.delete', $item->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body text-center">
+                            <h1 class="text-danger">¿Está seguro que desea eliminar?</h1>
+                            <h2>Cliente: <strong>{{$item->cedula}}</strong></h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
                                 </td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -96,7 +232,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="user" action="{{ route('register') }}">
+                    <form class="user" method="POST" action="{{ route('clientes.store') }}">
                         @csrf
                         <div class="form-group row">
                             <!-- Input Cédula -->
@@ -171,24 +307,24 @@
                             <input type="email" class="form-control" id="email" name="email"
                                 value="{{ old('email') }}">
                         </div>
+                        <div class="col-md-6">
+                            <input id="rol" name="rol" type="hidden" class="form-control form-control-user"
+                                value="Cliente">
+                        </div>
                         <div class="form-group row" id="divContraseña">
                             <!-- Input Contraseña -->
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <label for="password">Contraseña</label>
-                                <input type="password" class="form-control" id="password">
+                                <input type="password" class="form-control" id="password" name="password" required
+                                autocomplete="new-password">
                             </div>
                             <!-- Input Confirmar Contraseña -->
                             <div class="col-sm-6">
-                                <label for="password_confirmation">Confrimas contraseña</label>
-                                <input type="password" class="form-control" id="password_confirmation">
+                                <label for="password_confirmation">Confrimar contraseña</label>
+                                <input type="password" class="form-control" id="password-confirm" password_confirmation
+                                required autocomplete="new-password">
                             </div>
-                            <div class="col-md-6">
-                                <input id="rol" name="rol" type="hidden" class="form-control form-control-user"
-                                    value="cliente">
-                            </div>
-                            <div class="col-md-6">
-                                    <input id="laboratorio" name="laboratorio" type="hidden" class="form-control form-control-user" value="">
-                                </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -200,28 +336,7 @@
         </div>
     </div>
 
-    <!-- Modal Eliminar-->
-    <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cliente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <h1 class="text-danger">¿Está seguro que desea eliminar?</h1>
-                    <h2>Cliente: <strong id="laboratorista"></strong></h2>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script type="text/javascript">
         function guardar() {
             $('#nuevoModal').modal({
@@ -255,11 +370,11 @@
             $('#divContraseña').hide();
         }
 
-        function eliminar(cedula) {
+        function eliminar(id) {
             $('#eliminarModal').modal({
                 show: true
             });
-            $('#laboratorista').text(cedula);
+            $('#cliente').text(cedula);
         }
     </script>
 @endsection
