@@ -55,12 +55,12 @@
                                             data-target="#editarModal{{ $item->id }}">
                                             <i class="fas fa-edit"></i></button>
                                         <button type="button" class="btn btn-outline-danger" data-toggle="modal"
-                                        data-target="#eliminarModal{{ $item->id}}">
+                                            data-target="#eliminarModal{{ $item->id }}">
                                             {{-- onclick='eliminar("{{ $item->cedula }}")'> --}}
                                             <i class="fas fa-trash"></i></button>
                                     </div>
-                                     <!-- Editar-->
-                                     <div class="modal fade" id="editarModal{{ $item->id }}" tabindex="-1"
+                                    <!-- Editar-->
+                                    <div class="modal fade" id="editarModal{{ $item->id }}" tabindex="-1"
                                         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -186,31 +186,34 @@
 
 
                                     <!-- Modal Eliminar-->
-    <div class="modal fade" id="eliminarModal{{ $item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cliente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                    <form id="deleteform" class="user" method="POST" action="{{ route('clientes.delete', $item->id) }}">
-                        @csrf
-                        @method('DELETE')
-                        <div class="modal-body text-center">
-                            <h1 class="text-danger">¿Está seguro que desea eliminar?</h1>
-                            <h2>Cliente: <strong>{{$item->cedula}}</strong></h2>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Aceptar</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        </div>
-                    </form>
-            </div>
-        </div>
-    </div>
+                                    <div class="modal fade" id="eliminarModal{{ $item->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cliente</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form id="deleteform" class="user" method="POST"
+                                                    action="{{ route('clientes.delete', $item->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body text-center">
+                                                        <h1 class="text-danger">¿Está seguro que desea eliminar?</h1>
+                                                        <h2>Cliente: <strong>{{ $item->cedula }}</strong></h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -308,21 +311,20 @@
                                 value="{{ old('email') }}">
                         </div>
                         <div class="col-md-6">
-                            <input id="rol" name="rol" type="hidden" class="form-control form-control-user"
-                                value="Cliente">
+                            <input id="rol" name="rol" type="hidden" class="form-control form-control-user" value="Cliente">
                         </div>
                         <div class="form-group row" id="divContraseña">
                             <!-- Input Contraseña -->
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <label for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" required
-                                autocomplete="new-password">
+                                    autocomplete="new-password">
                             </div>
                             <!-- Input Confirmar Contraseña -->
                             <div class="col-sm-6">
                                 <label for="password_confirmation">Confrimar contraseña</label>
                                 <input type="password" class="form-control" id="password-confirm" password_confirmation
-                                required autocomplete="new-password">
+                                    required autocomplete="new-password">
                             </div>
 
                         </div>
@@ -379,7 +381,32 @@
     </script>
 @endsection
 @section('scripts')
-
+ <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
     <!-- Page level plugins -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>

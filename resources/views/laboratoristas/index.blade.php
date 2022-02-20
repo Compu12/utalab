@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <button type="button" class="btn btn-outline-primary text-right" onclick="guardar()">
-                        <i class="fas fa-plus-circle"></i> Nuevo ff
+                        <i class="fas fa-plus-circle"></i> Nuevo
                     </button>
                 </div>
             </div>
@@ -50,15 +50,16 @@
 
                                 <td>
                                     <div class="text-center">
-                                      {{--   <button type="button" class="btn btn-outline-warning"
+                                        {{-- <button type="button" class="btn btn-outline-warning"
                                             onclick='editar("#editarModal{{$item->id}}","{{ $item->cedula }}","{{ $item->apellido }}","{{ $item->nombre }}","{{ $item->rol }}","{{ $item->laboratorio }}","{{ $item->provincia }}","{{ $item->canton }}","{{ $item->estado }}","{{ $item->direccion }}","{{ $item->email }}")'><i
                                                 class="fas fa-edit"></i></button> --}}
                                         <button type="button" class="btn btn-outline-warning" data-toggle="modal"
                                             data-target="#editarModal{{ $item->id }}">
                                             <i class="fas fa-edit"></i></button>
-                                        <button type="button" class="btn btn-outline-danger"
-                                            onclick='eliminar("{{ $item->cedula }}")'><i
-                                                class="fas fa-trash"></i></button>
+                                       <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                            data-target="#eliminarModal{{ $item->id }}">
+                                            {{-- onclick='eliminar("{{ $item->cedula }}")'> --}}
+                                            <i class="fas fa-trash"></i></button>
                                     </div>
 
                                     <!-- Editar-->
@@ -129,7 +130,8 @@
                                                                     style="font-size: 1rem; padding-left: 0.8rem; height: 39px"
                                                                     name="laboratorio">
                                                                     <option>--Seleccione--</option>
-                                                                    <option value="LAB-ADMIN" {!! $item->laboratorio === 'LAB-ADMIN' ? 'selected' : '' !!}>LAB-ADMIN</option>
+                                                                    <option value="LAB-ADMIN" {!! $item->laboratorio === 'LAB-ADMIN' ? 'selected' : '' !!}>
+                                                                        LAB-ADMIN</option>
                                                                     <option value="LAB-01" {!! $item->laboratorio === 'LAB-01' ? 'selected' : '' !!}>LAB-01
                                                                     </option>
                                                                     <option value="LAB-02" {!! $item->laboratorio === 'LAB-02' ? 'selected' : '' !!}>LAB-02
@@ -214,6 +216,35 @@
                                                         </div>
                                                     </form>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Eliminar-->
+                                    <div class="modal fade" id="eliminarModal{{ $item->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form id="deleteform" class="user" method="POST"
+                                                    action="{{ route('laboratoristas.delete', $item->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body text-center">
+                                                        <h1 class="text-danger">¿Está seguro que desea eliminar?</h1>
+                                                        <h2>Cliente: <strong>{{ $item->cedula }}</strong></h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -368,28 +399,7 @@
     </div>
 
 
-    <!-- Modal Eliminar-->
-    <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar laboratorista</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-center">
-                    <h1 class="text-danger">¿Está seguro que desea eliminar?</h1>
-                    <h2>Laboratorista: <strong id="laboratorista"></strong></h2>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script type="text/javascript">
         function guardar() {
             $('#nuevoModal').modal({
@@ -435,7 +445,32 @@
     </script>
 @endsection
 @section('scripts')
-
+ <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
     <!-- Page level plugins -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>

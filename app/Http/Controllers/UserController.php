@@ -69,6 +69,13 @@ class UserController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+     public function delete($userId)
+    {
+        $newUser = User::find($userId);
+        $newUser->delete();
+        return redirect()->back();
+    }
+
 
 /* CLIENTE */
 
